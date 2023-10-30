@@ -1,48 +1,26 @@
-import {useState} from 'react'
 import './App.css'
-import {initialCharacters} from "./assets/initialCharacters.ts";
-import CharacterCard from "./components/CharacterCard";
+import {Link, Route, Routes} from "react-router-dom";
+import Greeting from "./pages/Greeting";
+import RickAndMorty from "./pages/RickAndMorty";
+import MainPage from "./pages/MainPage";
 
-type characterProps = {
-    id: number,
-    name: string,
-    image: string,
-    status: string,
-    species: string,
-    type: string,
-    gender: string,
-    origin: {
-        name: string,
-        url: string
-    },
-    location: {
-        name: string,
-        url: string
-    },
-    episode: string[],
-    url: string,
-    created: string
-}
 
 export default function App(): JSX.Element {
-    const [characters, setCharacters] = useState(initialCharacters)
 
     return (
         <>
-            <h1>Search Rick and Morty Characters</h1>
-            <input placeholder="Insanely big search box"
-                   onChange={(event: React.ChangeEvent<HTMLInputElement>): void => {
-                       const searchValue: string = event.target.value
-                       const filteredCharacters = initialCharacters.filter((character: characterProps) => {
-                           return character.name.toLowerCase().includes(searchValue.toLowerCase())
-                       })
-                       setCharacters(filteredCharacters)
-                   }}/>
-            <div className="container">
-                {characters.map((character: characterProps) => {
-                    return <CharacterCard key={character.id} character={character}/>
-                })}
+            <div className="link">
+                <Link to="/">Get back home.</Link>
+                <br/>
+                <Link to="/greeting">Get a nice and warm greeting if you feel low.</Link>
+                <br/>
+                <Link to="/rickandmorty">Cut right to the chase and search nerdy cartoon characters!</Link>
             </div>
+            <Routes>
+                <Route path="/" element={<MainPage/>}/>
+                <Route path="/greeting" element={<Greeting/>}/>
+                <Route path="/rickandmorty" element={<RickAndMorty/>}/>
+            </Routes>
         </>
     )
 }
