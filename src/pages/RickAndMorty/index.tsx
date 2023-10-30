@@ -1,31 +1,15 @@
 import {initialCharacters} from "../../assets/initialCharacters.ts";
 import CharacterCard from "../../components/CharacterCard";
-import {useState} from "react";
+import React from "react";
+import {Character} from "../../App.tsx";
 
-type characterProps = {
-    id: number,
-    name: string,
-    image: string,
-    status: string,
-    species: string,
-    type: string,
-    gender: string,
-    origin: {
-        name: string,
-        url: string
-    },
-    location: {
-        name: string,
-        url: string
-    },
-    episode: string[],
-    url: string,
-    created: string
+type Props = {
+    characters: Character[],
+    setCharacters: React.Dispatch<React.SetStateAction<Character[]>>
 }
 
-export default function RickAndMorty(): JSX.Element {
+export default function RickAndMorty(props:Props): JSX.Element {
 
-    const [characters, setCharacters] = useState(initialCharacters)
 
     return <div>
         <h1>Search Rick and Morty Characters</h1>
@@ -33,14 +17,14 @@ export default function RickAndMorty(): JSX.Element {
             <input placeholder="Insanely big search box"
                    onChange={(event: React.ChangeEvent<HTMLInputElement>): void => {
                        const searchValue: string = event.target.value
-                       const filteredCharacters = initialCharacters.filter((character: characterProps) => {
+                       const filteredCharacters = initialCharacters.filter((character: Character) => {
                            return character.name.toLowerCase().includes(searchValue.toLowerCase())
                        })
-                       setCharacters(filteredCharacters)
+                       props.setCharacters(filteredCharacters)
                    }}/>
         </div>
         <div className="container">
-            {characters.map((character: characterProps) => {
+            {props.characters.map((character: Character) => {
                 return <CharacterCard key={character.id} character={character}/>
             })}
         </div>
